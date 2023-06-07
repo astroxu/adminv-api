@@ -1,0 +1,7 @@
+import "sys/user.api"
+
+info(
+	desc: "go zero admin"
+	author: "astro"
+	email: "astroxu24@outlook.com"
+)

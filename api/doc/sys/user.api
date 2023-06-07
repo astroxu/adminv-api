@@ -1,0 +1,33 @@
+syntax = "v1"
+
+info(
+	desc: "用户相关"
+	author: "astro"
+	email: "astroxu24@outlook.com"
+)
+
+type (
+	loginReq {
+		UserName string `json:"userName"`
+		Password string `json:"password"`
+	}
+	loginResp {
+		Code             string `json:"code"`
+		Message          string `json:"message"`
+		Status           string `json:"status"`
+		CurrentAuthority string `json:"currentAuthority"`
+		Id               int64  `json:"id"`
+		UserName         string `json:"userName"`
+		AccessToken      string `json:"token"`
+		AccessExpire     int64  `json:"accessExpire"`
+		RefreshAfter     int64  `json:"refreshAfter"`
+	}
+)
+
+@server(
+	group: sys/user
+)
+service admin-api {
+	@handler UserLogin
+	post /api/sys/user/login (loginReq) returns (loginResp)
+}

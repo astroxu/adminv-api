@@ -1,4 +1,4 @@
-package sysmodel
+package sys_model
 
 import "github.com/zeromicro/go-zero/core/stores/sqlx"
 

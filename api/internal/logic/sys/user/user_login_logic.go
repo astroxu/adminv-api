@@ -2,7 +2,7 @@ package user
 
 import (
 	"adminv-api/api/internal/common/errorx"
-	"adminv-api/rpc/sys/sysclient"
+	"adminv-api/rpc/sys/sys_client"
 	"context"
 	"encoding/json"
 	"strings"
@@ -28,14 +28,13 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 }
 
 func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (*types.LoginResp, error) {
-	// todo: add your logic here and delete this line
 	if len(strings.TrimSpace(req.UserName)) == 0 || len(strings.TrimSpace(req.Password)) == 0 {
 		reqStr, _ := json.Marshal(req)
 		logx.WithContext(l.ctx).Errorf("用户名或密码不能为空,请求信息失败,参数:%s", reqStr)
 		return nil, errorx.NewDefaultError("用户名或密码不能为空")
 	}
 
-	resp, err := l.svcCtx.Sys.Login(l.ctx, &sysclient.LoginReq{
+	resp, err := l.svcCtx.Sys.Login(l.ctx, &sys_client.LoginReq{
 		UserName: req.UserName,
 		Password: req.Password,
 	})

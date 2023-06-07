@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.19.4
-// source: sys.proto
+// source: rpc/sys/sys.proto
 
 package sys
 
@@ -105,5 +105,5 @@ var Sys_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "sys.proto",
+	Metadata: "rpc/sys/sys.proto",
 }

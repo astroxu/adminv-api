@@ -2,18 +2,18 @@ package svc
 
 import (
 	"adminv-api/api/internal/config"
-	"adminv-api/rpc/sys/sysclient"
+	"adminv-api/rpc/sys/sys_client"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
 	Config config.Config
-	Sys    sysclient.Sys
+	Sys    sys_client.Sys
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
-		Sys:    sysclient.NewSys(zrpc.MustNewClient(c.SysRpc)),
+		Sys:    sys_client.NewSys(zrpc.MustNewClient(c.SysRpc)),
 	}
 }

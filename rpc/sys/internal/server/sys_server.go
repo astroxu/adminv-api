@@ -22,7 +22,24 @@ func NewSysServer(svcCtx *svc.ServiceContext) *SysServer {
 	}
 }
 
+// 登录
 func (s *SysServer) Login(ctx context.Context, in *sys.LoginReq) (*sys.LoginResp, error) {
 	l := logic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
+}
+
+// 登录日志
+func (s *SysServer) LoginLogAdd(ctx context.Context, in *sys.LoginLogAddReq) (*sys.LoginLogAddResp, error) {
+	l := logic.NewLoginLogAddLogic(ctx, s.svcCtx)
+	return l.LoginLogAdd(in)
+}
+
+func (s *SysServer) LoginLogList(ctx context.Context, in *sys.LoginLogListReq) (*sys.LoginLogListResp, error) {
+	l := logic.NewLoginLogListLogic(ctx, s.svcCtx)
+	return l.LoginLogList(in)
+}
+
+func (s *SysServer) LoginLogDelete(ctx context.Context, in *sys.LoginLogDeleteReq) (*sys.LoginLogDeleteResp, error) {
+	l := logic.NewLoginLogDeleteLogic(ctx, s.svcCtx)
+	return l.LoginLogDelete(in)
 }

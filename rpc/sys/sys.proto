@@ -20,6 +20,55 @@ message loginResp {
 }
 //user end---------------------
 
+//loginLog start---------------------
+message LoginLogAddReq {
+  string userName = 1;
+  string status = 2;
+  string ip = 3;
+  string createBy = 4;
+}
+
+message LoginLogAddResp {
+  string pong = 1;
+}
+
+message LoginLogListReq {
+  int64 current = 1;
+  int64 pageSize = 2;
+}
+
+message LoginLogListData {
+  int64 id = 1;
+  string userName = 2;
+  string status = 3;
+  string ip = 4;
+  string createBy = 5;
+  string createTime = 6;
+  string lastUpdateBy = 7;
+  string lastUpdateTime = 8;
+}
+
+message LoginLogListResp{
+  int64 total = 1;
+  repeated  LoginLogListData list = 2;
+}
+message LoginLogDeleteReq {
+  int64 id = 1;
+}
+
+message LoginLogDeleteResp {
+  string pong = 1;
+}
+//loginLog end---------------------
+
+
 service Sys {
+  // 登录
   rpc Login(LoginReq) returns(loginResp);
+
+  // 登录日志
+  rpc LoginLogAdd(LoginLogAddReq) returns(LoginLogAddResp);
+  rpc LoginLogList(LoginLogListReq) returns(LoginLogListResp);
+  rpc LoginLogDelete(LoginLogDeleteReq) returns(LoginLogDeleteResp);
+
 }

@@ -13,11 +13,23 @@ import (
 )
 
 type (
-	LoginReq  = sys.LoginReq
-	LoginResp = sys.LoginResp
+	LoginLogAddReq     = sys.LoginLogAddReq
+	LoginLogAddResp    = sys.LoginLogAddResp
+	LoginLogDeleteReq  = sys.LoginLogDeleteReq
+	LoginLogDeleteResp = sys.LoginLogDeleteResp
+	LoginLogListData   = sys.LoginLogListData
+	LoginLogListReq    = sys.LoginLogListReq
+	LoginLogListResp   = sys.LoginLogListResp
+	LoginReq           = sys.LoginReq
+	LoginResp          = sys.LoginResp
 
 	Sys interface {
+		// 登录
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// 登录日志
+		LoginLogAdd(ctx context.Context, in *LoginLogAddReq, opts ...grpc.CallOption) (*LoginLogAddResp, error)
+		LoginLogList(ctx context.Context, in *LoginLogListReq, opts ...grpc.CallOption) (*LoginLogListResp, error)
+		LoginLogDelete(ctx context.Context, in *LoginLogDeleteReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error)
 	}
 
 	defaultSys struct {
@@ -31,7 +43,24 @@ func NewSys(cli zrpc.Client) Sys {
 	}
 }
 
+// 登录
 func (m *defaultSys) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := sys.NewSysClient(m.cli.Conn())
 	return client.Login(ctx, in, opts...)
+}
+
+// 登录日志
+func (m *defaultSys) LoginLogAdd(ctx context.Context, in *LoginLogAddReq, opts ...grpc.CallOption) (*LoginLogAddResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.LoginLogAdd(ctx, in, opts...)
+}
+
+func (m *defaultSys) LoginLogList(ctx context.Context, in *LoginLogListReq, opts ...grpc.CallOption) (*LoginLogListResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.LoginLogList(ctx, in, opts...)
+}
+
+func (m *defaultSys) LoginLogDelete(ctx context.Context, in *LoginLogDeleteReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.LoginLogDelete(ctx, in, opts...)
 }

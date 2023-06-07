@@ -10,15 +10,17 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
-	UserModel sys_model.SysUserModel
+	UserModel     sys_model.SysUserModel
+	LoginLogModel sys_model.SysLoginLogModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	logx.Infof("c.Mysql.DataSource: %s", c.Mysql.DataSource)
 	sqlConn := sqlx.NewMysql(c.Mysql.DataSource)
 	return &ServiceContext{
-		Config:    c,
-		UserModel: sys_model.NewSysUserModel(sqlConn),
+		Config:        c,
+		UserModel:     sys_model.NewSysUserModel(sqlConn),
+		LoginLogModel: sys_model.NewSysLoginLogModel(sqlConn),
 	}
 
 }

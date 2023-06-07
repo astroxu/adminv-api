@@ -27,7 +27,7 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 	}
 }
 
-func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (*types.LoginResp, error) {
+func (l *UserLoginLogic) UserLogin(req *types.LoginReq, ip string) (*types.LoginResp, error) {
 	if len(strings.TrimSpace(req.UserName)) == 0 || len(strings.TrimSpace(req.Password)) == 0 {
 		reqStr, _ := json.Marshal(req)
 		logx.WithContext(l.ctx).Errorf("用户名或密码不能为空,请求信息失败,参数:%s", reqStr)
@@ -43,6 +43,14 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (*types.LoginResp, error
 		logx.WithContext(l.ctx).Errorf("根据用户名: %s和密码: %s查询用户异常:%s", req.UserName, req.Password, err.Error())
 		return nil, errorx.NewDefaultError("登录失败")
 	}
+
+	//保存登录日志
+	_, _ = l.svcCtx.Sys.LoginLogAdd(l.ctx, &sys_client.LoginLogAddReq{
+		UserName: resp.UserName,
+		Status:   "login",
+		Ip:       ip,
+		CreateBy: resp.UserName,
+	})
 
 	return &types.LoginResp{
 		Code:             "000000",

@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	syslog "adminv-api/api/internal/handler/sys/log"
 	sysuser "adminv-api/api/internal/handler/sys/user"
 	"adminv-api/api/internal/svc"
 
@@ -19,5 +20,25 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: sysuser.UserLoginHandler(serverCtx),
 			},
 		},
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.CheckUrl},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/list",
+					Handler: syslog.SysLogListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/delete",
+					Handler: syslog.SysLogDeleteHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sys/sysLog"),
 	)
 }

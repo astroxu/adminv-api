@@ -1,4 +1,5 @@
 import "sys/user.api"
+import "sys/sys_log.api"
 
 info(
 	desc: "go zero admin"

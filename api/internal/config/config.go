@@ -10,4 +10,14 @@ type Config struct {
 
 	//系统
 	SysRpc zrpc.RpcClientConf
+
+	Auth struct {
+		AccessSecret string
+		AccessExpire int64
+	}
+
+	Redis struct {
+		Host string
+		Pass string
+	}
 }

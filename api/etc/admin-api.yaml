@@ -1,10 +1,16 @@
-Name: admin-api
-Host: 0.0.0.0
+Name: "admin-api"
+Mode: "dev"
+Host: "0.0.0.0"
 Port: 8888
-
+Auth:
+  AccessSecret: "ad879037-c7a4-4063-9236-6bfc35d54b7d"
+  AccessExpire: 86400
+Redis:
+  Host: "127.0.0.1:6379"
+  Pass: ""
 #系统
 SysRpc:
   Etcd:
     Hosts:
-      - localhost:2379
-    Key: sys.rpc
+      - "localhost:2379"
+    Key: "sys.rpc"

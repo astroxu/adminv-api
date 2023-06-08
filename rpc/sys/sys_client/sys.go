@@ -22,6 +22,13 @@ type (
 	LoginLogListResp   = sys.LoginLogListResp
 	LoginReq           = sys.LoginReq
 	LoginResp          = sys.LoginResp
+	SysLogAddReq       = sys.SysLogAddReq
+	SysLogAddResp      = sys.SysLogAddResp
+	SysLogDeleteReq    = sys.SysLogDeleteReq
+	SysLogDeleteResp   = sys.SysLogDeleteResp
+	SysLogListData     = sys.SysLogListData
+	SysLogListReq      = sys.SysLogListReq
+	SysLogListResp     = sys.SysLogListResp
 
 	Sys interface {
 		// 登录
@@ -30,6 +37,10 @@ type (
 		LoginLogAdd(ctx context.Context, in *LoginLogAddReq, opts ...grpc.CallOption) (*LoginLogAddResp, error)
 		LoginLogList(ctx context.Context, in *LoginLogListReq, opts ...grpc.CallOption) (*LoginLogListResp, error)
 		LoginLogDelete(ctx context.Context, in *LoginLogDeleteReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error)
+		// 系统操作日志
+		SysLogAdd(ctx context.Context, in *SysLogAddReq, opts ...grpc.CallOption) (*SysLogAddResp, error)
+		SysLogList(ctx context.Context, in *SysLogListReq, opts ...grpc.CallOption) (*SysLogListResp, error)
+		SysLogDelete(ctx context.Context, in *SysLogDeleteReq, opts ...grpc.CallOption) (*SysLogDeleteResp, error)
 	}
 
 	defaultSys struct {
@@ -63,4 +74,20 @@ func (m *defaultSys) LoginLogList(ctx context.Context, in *LoginLogListReq, opts
 func (m *defaultSys) LoginLogDelete(ctx context.Context, in *LoginLogDeleteReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error) {
 	client := sys.NewSysClient(m.cli.Conn())
 	return client.LoginLogDelete(ctx, in, opts...)
+}
+
+// 系统操作日志
+func (m *defaultSys) SysLogAdd(ctx context.Context, in *SysLogAddReq, opts ...grpc.CallOption) (*SysLogAddResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.SysLogAdd(ctx, in, opts...)
+}
+
+func (m *defaultSys) SysLogList(ctx context.Context, in *SysLogListReq, opts ...grpc.CallOption) (*SysLogListResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.SysLogList(ctx, in, opts...)
+}
+
+func (m *defaultSys) SysLogDelete(ctx context.Context, in *SysLogDeleteReq, opts ...grpc.CallOption) (*SysLogDeleteResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.SysLogDelete(ctx, in, opts...)
 }

@@ -12,6 +12,7 @@ type ServiceContext struct {
 
 	UserModel     sys_model.SysUserModel
 	LoginLogModel sys_model.SysLoginLogModel
+	SysLogModel   sys_model.SysLogModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -21,6 +22,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:        c,
 		UserModel:     sys_model.NewSysUserModel(sqlConn),
 		LoginLogModel: sys_model.NewSysLoginLogModel(sqlConn),
+		SysLogModel:   sys_model.NewSysLogModel(sqlConn),
 	}
 
 }

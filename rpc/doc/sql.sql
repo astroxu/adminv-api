@@ -30,3 +30,16 @@ CREATE TABLE `sys_login_log` (
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统登录日志'
 
+CREATE TABLE `sys_log` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `user_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+    `operation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户操作',
+    `method` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '请求方法',
+    `params` varchar(5000) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '请求参数',
+    `time` bigint NOT NULL COMMENT '执行时长(毫秒)',
+    `ip` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP地址',
+    `create_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '创建人',
+    `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统操作日志'
+

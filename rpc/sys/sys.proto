@@ -61,6 +61,54 @@ message LoginLogDeleteResp {
 }
 //loginLog end---------------------
 
+//sysLog start---------------------
+message SysLogAddReq {
+  string user_name = 1;
+  string operation = 2;
+  string method = 3;
+  string params = 4;
+  int64 time = 5;
+  string ip = 6;
+  string createBy = 7;
+}
+
+message SysLogAddResp {
+  string pong = 1;
+}
+
+message SysLogListReq {
+  int64 current = 1;
+  int64 pageSize = 2;
+}
+
+message SysLogListData {
+  int64 id = 1;
+  string user_name = 2;
+  string operation = 3;
+  string method = 4;
+  string params = 5;
+  int64 time = 6;
+  string ip = 7;
+  string createBy = 8;
+  string createTime = 9;
+  string lastUpdateBy = 10;
+  string lastUpdateTime = 11;
+}
+
+message SysLogListResp{
+  int64 total = 1;
+  repeated  SysLogListData list = 2;
+}
+message SysLogDeleteReq {
+  int64 id = 1;
+}
+
+message SysLogDeleteResp {
+  string pong = 1;
+}
+//sysLog end---------------------
+
+
 
 service Sys {
   // 登录
@@ -70,5 +118,11 @@ service Sys {
   rpc LoginLogAdd(LoginLogAddReq) returns(LoginLogAddResp);
   rpc LoginLogList(LoginLogListReq) returns(LoginLogListResp);
   rpc LoginLogDelete(LoginLogDeleteReq) returns(LoginLogDeleteResp);
+
+  // 系统操作日志
+  rpc SysLogAdd(SysLogAddReq) returns(SysLogAddResp);
+  rpc SysLogList(SysLogListReq) returns(SysLogListResp);
+  rpc SysLogDelete(SysLogDeleteReq) returns(SysLogDeleteResp);
+
 
 }

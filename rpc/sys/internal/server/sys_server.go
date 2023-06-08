@@ -43,3 +43,19 @@ func (s *SysServer) LoginLogDelete(ctx context.Context, in *sys.LoginLogDeleteRe
 	l := logic.NewLoginLogDeleteLogic(ctx, s.svcCtx)
 	return l.LoginLogDelete(in)
 }
+
+// 系统操作日志
+func (s *SysServer) SysLogAdd(ctx context.Context, in *sys.SysLogAddReq) (*sys.SysLogAddResp, error) {
+	l := logic.NewSysLogAddLogic(ctx, s.svcCtx)
+	return l.SysLogAdd(in)
+}
+
+func (s *SysServer) SysLogList(ctx context.Context, in *sys.SysLogListReq) (*sys.SysLogListResp, error) {
+	l := logic.NewSysLogListLogic(ctx, s.svcCtx)
+	return l.SysLogList(in)
+}
+
+func (s *SysServer) SysLogDelete(ctx context.Context, in *sys.SysLogDeleteReq) (*sys.SysLogDeleteResp, error) {
+	l := logic.NewSysLogDeleteLogic(ctx, s.svcCtx)
+	return l.SysLogDelete(in)
+}

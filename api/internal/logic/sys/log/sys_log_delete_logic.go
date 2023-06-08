@@ -1,6 +1,8 @@
 package log
 
 import (
+	"adminv-api/api/internal/common/errorx"
+	"adminv-api/rpc/sys/sys_client"
 	"context"
 
 	"adminv-api/api/internal/svc"
@@ -23,8 +25,17 @@ func NewSysLogDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SysL
 	}
 }
 
-func (l *SysLogDeleteLogic) SysLogDelete(req *types.DeleteSysLogReq) (resp *types.DeleteSysLogResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *SysLogDeleteLogic) SysLogDelete(req *types.DeleteSysLogReq) (*types.DeleteSysLogResp, error) {
+	_, err := l.svcCtx.Sys.SysLogDelete(l.ctx, &sys_client.SysLogDeleteReq{
+		Id: req.Id,
+	})
 
-	return
+	if err != nil {
+		return nil, errorx.NewDefaultError("删除操作日志失败")
+	}
+
+	return &types.DeleteSysLogResp{
+		Code:    "000000",
+		Message: "",
+	}, nil
 }

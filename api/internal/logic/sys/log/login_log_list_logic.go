@@ -4,6 +4,7 @@ import (
 	"adminv-api/api/internal/common/errorx"
 	"adminv-api/rpc/sys/sys_client"
 	"context"
+	"encoding/json"
 
 	"adminv-api/api/internal/svc"
 	"adminv-api/api/internal/types"
@@ -11,40 +12,39 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type SysLogListLogic struct {
+type LoginLogListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewSysLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SysLogListLogic {
-	return &SysLogListLogic{
+func NewLoginLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogListLogic {
+	return &LoginLogListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *SysLogListLogic) SysLogList(req *types.ListSysLogReq) (*types.ListSysLogResp, error) {
-	resp, err := l.svcCtx.Sys.SysLogList(l.ctx, &sys_client.SysLogListReq{
+func (l *LoginLogListLogic) LoginLogList(req *types.ListLoginLogReq) (*types.ListLoginLogResp, error) {
+	resp, err := l.svcCtx.Sys.LoginLogList(l.ctx, &sys_client.LoginLogListReq{
 		Current:  req.Current,
 		PageSize: req.PageSize,
 	})
 
 	if err != nil {
-		return nil, errorx.NewDefaultError("查询操作日志失败")
+		data, _ := json.Marshal(req)
+		logx.WithContext(l.ctx).Errorf("参数: %s,查询登录日志列表异常:%s", string(data), err.Error())
+		return nil, errorx.NewDefaultError("查询登录日志失败")
 	}
 
-	var list []*types.ListSysLogData
+	var list []*types.ListLoginLogData
 
 	for _, log := range resp.List {
-		list = append(list, &types.ListSysLogData{
+		list = append(list, &types.ListLoginLogData{
 			Id:             log.Id,
 			UserName:       log.UserName,
-			Operation:      log.Operation,
-			Method:         log.Method,
-			Params:         log.Params,
-			Time:           log.Time,
+			Status:         log.Status,
 			Ip:             log.Ip,
 			CreateBy:       log.CreateBy,
 			CreateTime:     log.CreateTime,
@@ -53,14 +53,13 @@ func (l *SysLogListLogic) SysLogList(req *types.ListSysLogReq) (*types.ListSysLo
 		})
 	}
 
-	return &types.ListSysLogResp{
+	return &types.ListLoginLogResp{
 		Code:     "000000",
-		Message:  "",
+		Message:  "查询登录日志成功",
 		Current:  req.Current,
 		Data:     list,
 		PageSize: req.PageSize,
 		Success:  true,
 		Total:    resp.Total,
 	}, nil
-
 }
